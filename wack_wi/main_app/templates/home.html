@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<center><h1>Wacky Widgets</h1>
+{% if widgets|length == 0 %}
+<h3><hr>No Widgets Exist</h3></hr>
+
+{% else%}
+    {% for w in widgets %}
+    <table> 
+        <thead>
+        <tr>
+            <th>Description</th><th>Quantity</th><th>Delete</th>
+        </tr>
+        <tr>
+            <th>{{ w.desc }}</th><th>{{ w.quant }}</th><th>
+                <form id="my_form" method="post" action="{% url 'WidgetDelete'  w.id %}">
+                    <a style="color:red" href="javascript:{}" onclick="document.getElementById('my_form').submit();">X</a></th>
+                    {% csrf_token %}
+                
+                    <input type="hidden"  value="Submit That Widget" class="btn">
+                </form>
+        </tr>
+        </thead>
+    </table>
+    {% endfor %}
+
+
+{% endif %}
+
+{{widgets.as_table}}
+   
+
+<br>
+<br>
+<form method="post" action="{% url 'home' %}">
+    {% csrf_token %}
+    <table>
+        {{ widget_form.as_p}}
+    </table>
+    <hr>
+    <h4><input type="submit" value="Submit That Widget" class="btn"></h4><hr>
+</form>
+</center>
+{% endblock %}
